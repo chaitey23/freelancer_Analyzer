@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import Freelancer from '@/models/Freelancer'
-import User from '@/models/User'
+import '@/models/User'
 
 export async function GET() {
     try {
@@ -11,6 +11,8 @@ export async function GET() {
 
         return NextResponse.json({ freelancers })
     } catch (error) {
+        console.error('FREELANCERS ERROR:', error)
+
         return NextResponse.json({ message: 'Server error' }, { status: 500 })
     }
 }

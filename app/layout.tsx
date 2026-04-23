@@ -10,30 +10,6 @@ export const metadata: Metadata = {
   title: 'Freelancer Analyzer',
   description: 'Find trusted freelancers with smart reputation scoring',
 }
-
-// export default function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode
-// }) {
-//   return (
-//     <html lang="en">
-//       <body className={`${geist.className} relative min-h-screen`}>
-
-//         <div className="fixed inset-0 z-[-1] pointer-events-none">
-//           <AnimatedBackground />
-//         </div>
-
-//         <Navbar />
-
-//         <main>
-//           {children}
-//         </main>
-
-//       </body>
-//     </html>
-//   )
-// }
 export default function RootLayout({
   children,
 }: {
@@ -45,15 +21,14 @@ export default function RootLayout({
         <div className="fixed inset-0 z-0 pointer-events-none">
           <AnimatedBackground />
         </div>
-
-
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
+
           <main className="flex-grow">
             {children}
           </main>
         </div>
       </body>
-    </html>
+    </html >
   )
 }

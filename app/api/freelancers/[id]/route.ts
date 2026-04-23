@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import Freelancer from '@/models/Freelancer'
-
+import '@/models/User'
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         await connectDB()

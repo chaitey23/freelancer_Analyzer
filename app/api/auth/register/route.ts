@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
 
-// ✅ Rate limiting - simple in-memory (production এ Redis use করবে)
 const loginAttempts = new Map<string, { count: number; lastAttempt: number }>()
 
 export async function POST(req: NextRequest) {
@@ -14,7 +13,7 @@ export async function POST(req: NextRequest) {
         console.log('=== DB CONNECTED ===')
 
         const { name, email, password, role } = await req.json()
-        console.log('=== DATA:', { name, email, role }) // password log করবো না
+        console.log('=== DATA:', { name, email, role })
 
         // validation
         if (!name || !email || !password) {

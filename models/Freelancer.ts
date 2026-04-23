@@ -8,6 +8,12 @@ export interface IFreelancer extends Document {
     trustScore: number
     bio: string
     avatar: string
+    totalProjects: number
+    jobSuccessRate: number
+    responseRate: number
+    platform: string
+    yearsOfExperience: number
+    aiReport: string
 }
 
 const FreelancerSchema = new Schema<IFreelancer>({
@@ -17,7 +23,13 @@ const FreelancerSchema = new Schema<IFreelancer>({
     portfolio: { type: String, default: '' },
     avatar: { type: String, default: '' },
     bio: { type: String, default: '' },
-    trustScore: { type: Number, default: 0 }
+    trustScore: { type: Number, default: 0 },
+    totalProjects: { type: Number, default: 0 },
+    jobSuccessRate: { type: Number, default: 0 },
+    responseRate: { type: Number, default: 0 },
+    platform: { type: String, default: '' },
+    yearsOfExperience: { type: Number, default: 0 },
+    aiReport: { type: String, default: '' },
 })
 
 export default mongoose.models.Freelancer || mongoose.model<IFreelancer>('Freelancer', FreelancerSchema)
