@@ -124,18 +124,7 @@ export default function AnimatedBackground() {
                 }}
             />
 
-            {/* Theme Toggle (Optional: You can keep or remove this) */}
-            <button
-                onClick={() => setDark(d => !d)}
-                className="fixed top-24 right-6 pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold border backdrop-blur-md transition-all duration-300 z-50"
-                style={{
-                    background: dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-                    borderColor: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                    color: dark ? '#fff' : '#000',
-                }}
-            >
-                {dark ? '☀️ LIGHT' : '🌙 DARK'}
-            </button>
+
         </div>
     )
 }
