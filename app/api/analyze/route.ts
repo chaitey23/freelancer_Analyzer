@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Groq from 'groq-sdk'
 import { connectDB } from '@/lib/mongodb'
 import Freelancer from '@/models/Freelancer'
 import { getTokenData } from '@/lib/auth'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! })
 
 export async function POST(req: NextRequest) {
     try {
@@ -30,7 +30,7 @@ Total Projects Completed: ${freelancer.totalProjects || 0}
 Job Success Rate: ${freelancer.jobSuccessRate || 0}%
 Response Rate: ${freelancer.responseRate || 0}%
 
-Respond ONLY in this exact JSON format:
+Respond ONLY in this exact JSON format with no extra text:
 {
   "trustScore": <number between 0-100>,
   "summary": "<2-3 sentence overall summary>",
@@ -39,13 +39,16 @@ Respond ONLY in this exact JSON format:
   "recommendation": "<1 sentence recommendation for clients>"
 }
 `
+        const result = await groq.chat.completions.create({
+            model: 'llama-3.3-70b-versatile',
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: 1000,
+        })
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-        const result = await model.generateContent(prompt)
-        const text = result.response.text()
-
-        const clean = text.replace(/```json|```/g, '').trim()
-        const report = JSON.parse(clean)
+        const text = result.choices[0].message.content || ''
+        const jsonMatch = text.match(/\{[\s\S]*\}/)
+        if (!jsonMatch) throw new Error('No JSON found in response')
+        const report = JSON.parse(jsonMatch[0])
         console.log("RAW TEXT:", text)
 
         await Freelancer.findOneAndUpdate(
@@ -55,9 +58,8 @@ Respond ONLY in this exact JSON format:
                 aiReport: JSON.stringify(report)
             }
         )
-
         return NextResponse.json({ report })
-    } catch (error) {
+    } catch (error: any) {
         console.error('ANALYZE ERROR:', error)
         return NextResponse.json({ message: 'Analysis failed' }, { status: 500 })
     }

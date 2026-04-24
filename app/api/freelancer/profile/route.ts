@@ -15,18 +15,25 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ message: 'Server error' }, { status: 500 })
     }
 }
-
 export async function PUT(req: NextRequest) {
     try {
         await connectDB()
         const tokenData = getTokenData(req)
         if (!tokenData) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
 
-        const { skills, bio, experience, portfolio, avatar } = await req.json()
+        const {
+            skills, bio, experience, portfolio, avatar,
+            totalProjects, jobSuccessRate, responseRate,
+            platform, yearsOfExperience
+        } = await req.json()
 
         const profile = await Freelancer.findOneAndUpdate(
             { userId: tokenData.userId },
-            { skills, bio, experience, portfolio, avatar },
+            {
+                skills, bio, experience, portfolio, avatar,
+                totalProjects, jobSuccessRate, responseRate,
+                platform, yearsOfExperience
+            },
             { new: true, upsert: true }
         )
 

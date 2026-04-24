@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Loader2, Sparkles, CheckCircle2, AlertTriangle, Lightbulb, ChevronDown } from 'lucide-react'
 import axiosInstance from '@/lib/axios'
-
 interface Report {
     trustScore: number
     summary: string
@@ -10,19 +9,16 @@ interface Report {
     weaknesses: string[]
     recommendation: string
 }
-
 const PLATFORMS = [
     { value: 'Upwork', label: 'Upwork', icon: 'U', cls: 'bg-green-500/10 text-green-400' },
     { value: 'Fiverr', label: 'Fiverr', icon: 'F', cls: 'bg-emerald-500/10 text-emerald-400' },
     { value: 'Both', label: 'Upwork + Fiverr', icon: '+', cls: 'bg-indigo-500/10 text-indigo-400' },
     { value: 'Other', label: 'Other Platform', icon: '•', cls: 'bg-slate-500/10 text-slate-400' },
 ]
-
 function PlatformSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     const selected = PLATFORMS.find(p => p.value === value) ?? PLATFORMS[0]
-
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
@@ -50,7 +46,6 @@ function PlatformSelect({ value, onChange }: { value: string; onChange: (v: stri
                 </div>
                 <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
-
             {open && (
                 <div className="absolute left-0 right-0 top-full z-50 bg-[#131c2e] border border-indigo-500/30 border-t-0 rounded-b-2xl overflow-hidden shadow-2xl">
                     {PLATFORMS.map(p => (
@@ -75,7 +70,6 @@ function PlatformSelect({ value, onChange }: { value: string; onChange: (v: stri
         </div>
     )
 }
-
 export default function AnalyticsForm() {
     const [analyzing, setAnalyzing] = useState(false)
     const [report, setReport] = useState<Report | null>(null)
@@ -87,7 +81,33 @@ export default function AnalyticsForm() {
         responseRate: '',
         yearsOfExperience: '',
     })
+    useEffect(() => {
+        const fetchSavedReport = async () => {
+            try {
+                const res = await axiosInstance.get('/freelancer/profile')
+                const p = res.data?.profile
 
+                if (p) {
+                    setForm(f => ({
+                        ...f,
+                        platform: p.platform || 'Upwork',
+                        totalProjects: p.totalProjects ? String(p.totalProjects) : '',
+                        jobSuccessRate: p.jobSuccessRate ? String(p.jobSuccessRate) : '',
+                        responseRate: p.responseRate ? String(p.responseRate) : '',
+                        yearsOfExperience: p.yearsOfExperience ? String(p.yearsOfExperience) : '',
+                    }))
+                }
+
+
+                if (p?.aiReport) {
+                    setReport(JSON.parse(p.aiReport))
+                }
+            } catch {
+                // no saved data
+            }
+        }
+        fetchSavedReport()
+    }, [])
     const handleAnalyze = async () => {
         setAnalyzing(true); setError(''); setReport(null)
         try {
@@ -106,7 +126,6 @@ export default function AnalyticsForm() {
             setAnalyzing(false)
         }
     }
-
     const scoreColor = !report ? '#6366f1'
         : report.trustScore >= 80 ? '#10b981'
             : report.trustScore >= 60 ? '#818cf8'
@@ -152,7 +171,7 @@ export default function AnalyticsForm() {
                                         <input
                                             type="number" placeholder={ph} min="0"
                                             max={suffix ? '100' : undefined}
-                                            className="w-full bg-white/[0.03] border border-white/[0.07] rounded-xl px-3.5 py-2.5 pr-8 font-mono text-base font-medium text-slate-100 placeholder-slate-700 focus:outline-none focus:border-indigo-500/40 focus:bg-indigo-500/[0.04] focus:ring-2 focus:ring-indigo-500/10 transition-all"
+                                            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 font-mono text-lg font-bold text-white placeholder-slate-700 focus:outline-none focus:border-indigo-500/50 focus:bg-indigo-500/[0.05] focus:ring-2 focus:ring-indigo-500/10 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                             value={form[key]}
                                             onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                                         />
