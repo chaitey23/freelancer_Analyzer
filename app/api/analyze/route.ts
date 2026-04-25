@@ -59,6 +59,7 @@ Respond ONLY in this exact JSON format with no extra text:
             }
         )
         return NextResponse.json({ report })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error('ANALYZE ERROR:', error)
         return NextResponse.json({ message: 'Analysis failed' }, { status: 500 })

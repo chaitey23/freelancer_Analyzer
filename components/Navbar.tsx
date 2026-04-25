@@ -4,13 +4,12 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
 import axiosInstance from '@/lib/axios'
 import { UserType } from '@/types'
-
 export default function Navbar() {
     const pathname = usePathname()
     const router = useRouter()
     const [user, setUser] = useState<UserType | null>(null)
-    const [menuOpen, setMenuOpen] = useState(false) // For mobile menu
-    const [profileOpen, setProfileOpen] = useState(false) // For profile dropdown
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [profileOpen, setProfileOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const profileRef = useRef<HTMLDivElement>(null)
@@ -50,7 +49,6 @@ export default function Navbar() {
 
     const isActive = (path: string) => pathname === path
 
-    // ✅ উন্নত রিডিবিলিটি সহ নব-লিঙ্ক ক্লাস
     const navLinkClass = (path: string) =>
         `relative text-[13px] font-bold px-5 py-2 rounded-full transition-all duration-300 flex items-center justify-center border ${isActive(path)
             ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-500/40'
@@ -155,6 +153,45 @@ export default function Navbar() {
                                     <Link href="/settings" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
                                         Settings
                                     </Link>
+                                    {/* {user.role === 'client' && (
+                                        <Link href="/dashboard/client" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
+                                            Dashboard
+                                        </Link>
+                                    )}
+                                    {user.role === 'freelancer' && (
+                                        <Link href="/dashboard/freelancer" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
+                                            Dashboard
+                                        </Link>
+                                    )}
+                                    {user.role === 'admin' && (
+                                        <Link href="/dashboard/admin" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
+                                            Dashboard
+                                        </Link>
+                                    )} */}
+                                    {user.role === 'client' && (
+                                        <Link href="/dashboard/client" className={`flex items-center gap-2 px-3 py-2.5 text-sm font-bold rounded-xl transition-colors ${pathname === '/dashboard/client'
+                                                ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                                                : 'text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30'
+                                            }`}>
+                                            Dashboard
+                                        </Link>
+                                    )}
+                                    {user.role === 'freelancer' && (
+                                        <Link href="/dashboard/freelancer" className={`flex items-center gap-2 px-3 py-2.5 text-sm font-bold rounded-xl transition-colors ${pathname === '/dashboard/freelancer'
+                                                ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                                                : 'text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30'
+                                            }`}>
+                                            Dashboard
+                                        </Link>
+                                    )}
+                                    {user.role === 'admin' && (
+                                        <Link href="/dashboard/admin" className={`flex items-center gap-2 px-3 py-2.5 text-sm font-bold rounded-xl transition-colors ${pathname === '/dashboard/admin'
+                                                ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                                                : 'text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30'
+                                            }`}>
+                                            Dashboard
+                                        </Link>
+                                    )}
                                     <button
                                         onClick={logout}
                                         className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition-colors"
