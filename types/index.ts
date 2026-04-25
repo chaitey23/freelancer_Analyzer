@@ -7,7 +7,12 @@ export interface UserType {
 
 export interface FreelancerType {
     _id: string
-    userId: string
+    userId: {
+        _id: string
+        name: string
+        email: string
+    }
+    avatar: string
     skills: string[]
     experience: string
     portfolio: string

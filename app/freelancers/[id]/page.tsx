@@ -517,6 +517,12 @@ export default function FreelancerDetails() {
             setSubmitting(false)
         }
     }
+    useEffect(() => {
+        const userData = localStorage.getItem('user')
+        if (!userData) {
+            router.push('/login')
+        }
+    }, [])
 
     const score = freelancer?.trustScore || 0
     const initials = freelancer?.userId?.name
