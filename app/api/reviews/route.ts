@@ -4,7 +4,6 @@ import Review from '@/models/Review'
 import Proposal from '@/models/Proposal'
 import Freelancer from '@/models/Freelancer'
 import { getTokenData } from '@/lib/auth'
-
 export async function POST(req: NextRequest) {
     try {
         await connectDB()
@@ -16,7 +15,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'All fields required' }, { status: 400 })
         }
 
-        // completed proposal আছে কিনা check
         const completedProposal = await Proposal.findOne({
             clientId: tokenData.userId,
             freelancerId,
@@ -26,7 +24,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'You can only review after completing a job' }, { status: 403 })
         }
 
-        // আগে review দিয়েছে কিনা check
         const existingReview = await Review.findOne({
             clientId: tokenData.userId,
             freelancerId
@@ -38,7 +35,7 @@ export async function POST(req: NextRequest) {
         // Fake review detection
         const recentReviews = await Review.find({
             freelancerId,
-            createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } // last 24hr
+            createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
         })
         const isFake =
             comment.trim().split(' ').length < 3 ||

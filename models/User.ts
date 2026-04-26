@@ -7,7 +7,6 @@ export interface IUser extends Document {
     role: 'admin' | 'freelancer' | 'client'
     createdAt: Date
 }
-
 const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },

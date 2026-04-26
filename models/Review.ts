@@ -1,11 +1,16 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
+export interface IReply {
+    comment: string
+    createdAt: Date
+}
 export interface IReview extends Document {
     freelancerId: mongoose.Types.ObjectId
     clientId: mongoose.Types.ObjectId
     rating: number
     comment: string
     isFake: boolean
+    reply?: IReply
     createdAt: Date
 }
 
@@ -15,6 +20,11 @@ const ReviewSchema = new Schema<IReview>({
     rating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String, required: true },
     isFake: { type: Boolean, default: false },
+    reply: {
+        comment: { type: String },
+        createdAt: { type: Date }
+    },
+
     createdAt: { type: Date, default: Date.now }
 })
 
