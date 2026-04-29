@@ -42,7 +42,7 @@ export default function LoginPage() {
         return isValid
     }
 
-    const handleSubmit = async (e: React.SyntheticEvent) => {
+    const handleSubmit = async (e: React.BaseSyntheticEvent) => {
         e.preventDefault()
         setServerError('')
 
@@ -56,6 +56,9 @@ export default function LoginPage() {
 
             localStorage.setItem('user', JSON.stringify(user))
 
+            // if (user.role === 'admin') window.location.href = '/dashboard/admin'
+            // else if (user.role === 'freelancer') window.location.href = '/dashboard/freelancer/profile'
+            // else window.location.href = '/'
             if (user.role === 'admin') router.push('/dashboard/admin')
             else if (user.role === 'freelancer') router.push('/dashboard/freelancer/profile')
             else router.push('/')
@@ -74,7 +77,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 relative overflow-hidden bg-transparent mt-24">
 
-            {/* Background Glow -  */}
+            {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
             <div className="relative w-full max-w-md z-10">
@@ -88,12 +91,6 @@ export default function LoginPage() {
                             Login to your account
                         </p>
                     </div>
-
-                    {serverError && (
-                        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl mb-6 text-sm text-center">
-                            {serverError}
-                        </div>
-                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Email */}
@@ -127,8 +124,23 @@ export default function LoginPage() {
                                 value={formData.password}
                                 onChange={handleChange}
                             />
-                            {errors.password && <p className="text-red-400 text-[10px] ml-2 italic">{errors.password}</p>}
+                            <div className="flex items-center justify-between ml-1">
+                                {errors.password
+                                    ? <p className="text-red-400 text-[10px] italic">{errors.password}</p>
+                                    : <span />
+                                }
+                                <Link href="/forgot-password" className="text-indigo-400 hover:text-indigo-300 text-[11px] font-medium transition-colors">
+                                    Forgot password?
+                                </Link>
+                            </div>
                         </div>
+
+                        {/* Server Error */}
+                        {serverError && (
+                            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl text-sm text-center">
+                                {serverError}
+                            </div>
+                        )}
 
                         {/* Login Button */}
                         <button

@@ -51,9 +51,10 @@ export async function POST(req: NextRequest) {
                 lastAttempt: now
             })
             return NextResponse.json(
-                { message: 'Invalid email or password' },
+                { message: 'No account found with this email' },
                 { status: 401 }
             )
+
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
                 lastAttempt: now
             })
             return NextResponse.json(
-                { message: 'Invalid email or password' },
+                { message: 'Incorrect password' },
                 { status: 401 }
             )
         }

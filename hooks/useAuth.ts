@@ -31,7 +31,7 @@ export function useAuth(requiredRole?: string) {
     const logout = async () => {
         await axiosInstance.post('/auth/logout')
         localStorage.removeItem('user')
-        router.push('/')
+        window.location.href = '/'
     }
     return { user, logout }
 }

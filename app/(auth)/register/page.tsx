@@ -94,9 +94,7 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-20">
-            {/* মেইন কার্ড কন্টেইনার */}
             <div className="relative group w-full max-w-md">
-                {/* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
 
                 <div className="relative bg-white/80 dark:bg-[#12141d]/80 backdrop-blur-xl p-8 rounded-2xl border border-white/20 dark:border-white/10 shadow-2xl">

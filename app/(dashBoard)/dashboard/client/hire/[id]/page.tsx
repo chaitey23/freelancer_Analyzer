@@ -142,7 +142,7 @@ export default function HirePage() {
                     <button
                         onClick={handleSubmit}
                         disabled={loading || !message.trim()}
-                        className="w-full py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.98]"
+                        className="w-full py-3.5 rounded-xl font-black cursor-pointer text-sm flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.98]"
                         style={{ background: 'linear-gradient(135deg, #6366f1, #7c3aed)' }}
                     >
                         {loading

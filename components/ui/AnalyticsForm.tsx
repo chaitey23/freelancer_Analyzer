@@ -191,7 +191,7 @@ export default function AnalyticsForm() {
                         <button
                             onClick={handleAnalyze}
                             disabled={analyzing}
-                            className="w-full py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.98] cursor-pointer relative overflow-hidden group"
+                            className="w-full py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.98] cursor-pointer relative overflow-hidden group cursor-pointer"
                             style={{ background: 'linear-gradient(135deg, #6366f1, #7c3aed)' }}
                         >
                             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"

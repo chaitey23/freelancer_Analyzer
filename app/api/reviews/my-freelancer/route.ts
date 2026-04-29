@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import Review from '@/models/Review'
 import Freelancer from '@/models/Freelancer'
+import '@/models/User'
 import { getTokenData } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
