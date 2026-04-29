@@ -3,6 +3,7 @@ export interface UserType {
     name: string
     email: string
     role: 'admin' | 'freelancer' | 'client'
+    avatar?: string
 }
 
 export interface FreelancerType {

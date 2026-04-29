@@ -33,5 +33,5 @@ export function useAuth(requiredRole?: string) {
         localStorage.removeItem('user')
         window.location.href = '/'
     }
-    return { user, logout }
+    return { user, logout, setUser }
 }

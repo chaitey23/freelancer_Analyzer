@@ -173,7 +173,7 @@ export default function FeaturesSection() {
     }, [])
 
     return (
-        <section ref={sectionRef} className="relative w-full py-24 overflow-hidden bg-slate-950">
+        <section ref={sectionRef} className="relative w-full py-24 overflow-hidden">
 
             {/* Ambient blobs */}
             <div className="feat-blob pointer-events-none absolute -top-16 left-1/4 w-96 h-96 rounded-full opacity-[0.08]"

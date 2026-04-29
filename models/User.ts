@@ -6,6 +6,7 @@ export interface IUser extends Document {
     password: string
     role: 'admin' | 'freelancer' | 'client'
     createdAt: Date
+    avatar?: string
 }
 const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
@@ -16,7 +17,8 @@ const UserSchema = new Schema<IUser>({
         enum: ['admin', 'freelancer', 'client'],
         default: 'client'
     },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    avatar: { type: String, default: '' }
 })
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
