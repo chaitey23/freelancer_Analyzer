@@ -7,6 +7,7 @@ export interface IUser extends Document {
     role: 'admin' | 'freelancer' | 'client'
     createdAt: Date
     avatar?: string
+    banned: boolean
 }
 const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
@@ -18,7 +19,8 @@ const UserSchema = new Schema<IUser>({
         default: 'client'
     },
     createdAt: { type: Date, default: Date.now },
-    avatar: { type: String, default: '' }
+    avatar: { type: String, default: '' },
+    banned: { type: Boolean, default: false }
 })
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema)

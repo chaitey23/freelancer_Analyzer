@@ -13,7 +13,6 @@ export default function RegisterPage() {
     const roles = [
         { value: 'client', label: 'Client' },
         { value: 'freelancer', label: 'Freelancer' },
-        { value: 'admin', label: 'Admin' },
     ]
     const [formData, setFormData] = useState({
         name: '',

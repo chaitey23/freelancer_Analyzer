@@ -231,7 +231,7 @@ export default function SettingsPage() {
                             </div>
                             <div>
                                 <p className="font-black text-slate-800 dark:text-white text-sm">Change Password</p>
-                                <p className="text-slate-400 text-xs">Make sure it's at least 6 characters</p>
+                                <p className="text-slate-400 text-xs">Make sure it&apos;s at least 6 characters</p>
                             </div>
                         </div>
 
