@@ -76,6 +76,7 @@ export default function Navbar() {
             <>
                 <Link href="/dashboard/admin/users" className={navLinkClass('/dashboard/admin/users')}>Users</Link>
                 <Link href="/dashboard/admin/reviews" className={navLinkClass('/dashboard/admin/reviews')}>Reviews</Link>
+                <Link href="/dashboard/admin/suspicious" className={navLinkClass('/dashboard/admin/suspicious')}>Suspicious</Link>
             </>
         )
     }
