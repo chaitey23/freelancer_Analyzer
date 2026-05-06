@@ -6,6 +6,7 @@ import { useAdminReviews } from '../hooks/useAdminReviews'
 import { AdminReview } from '../users/reviewTypes'
 import ReviewTable from '../components/ReviewTable'
 import ReviewDeleteModal from '../components/ReviewDeleteModal'
+import AdminLoader from '../shared/Adminloader '
 export default function SuspiciousPage() {
     const { user } = useAuth('admin')
     const { reviews, loading, actionLoading, fetchReviews, deleteReview, flagReview } =
@@ -26,7 +27,7 @@ export default function SuspiciousPage() {
         if (success) setConfirmDelete(null)
     }
 
-    if (!user || loading) return null
+    if (!user || loading) return <AdminLoader></AdminLoader>
 
     return (
         <div className="pt-24 px-4">

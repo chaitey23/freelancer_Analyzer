@@ -1,4 +1,7 @@
-import { Search, ChevronDown } from 'lucide-react'
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { Search, ChevronDown, Users, Briefcase, ShieldCheck, LayoutGrid } from 'lucide-react'
 import { RoleFilter } from '../AdminTypes'
 
 interface FilterBarProps {
@@ -9,11 +12,11 @@ interface FilterBarProps {
     resultCount: number
 }
 
-const ROLE_OPTIONS: { value: RoleFilter; label: string }[] = [
-    { value: 'all', label: 'All Roles' },
-    { value: 'client', label: 'Clients' },
-    { value: 'freelancer', label: 'Freelancers' },
-    { value: 'admin', label: 'Administrators' },
+const ROLE_OPTIONS: { value: RoleFilter; label: string; icon: React.ReactNode; count?: number }[] = [
+    { value: 'all', label: 'All Roles', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+    { value: 'client', label: 'Clients', icon: <Users className="w-3.5 h-3.5" /> },
+    { value: 'freelancer', label: 'Freelancers', icon: <Briefcase className="w-3.5 h-3.5" /> },
+    { value: 'admin', label: 'Administrators', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
 ]
 
 export default function FilterBar({
@@ -23,6 +26,19 @@ export default function FilterBar({
     onRoleFilterChange,
     resultCount,
 }: FilterBarProps) {
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLDivElement>(null)
+
+    const selected = ROLE_OPTIONS.find(o => o.value === roleFilter) ?? ROLE_OPTIONS[0]
+
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+        }
+        document.addEventListener('mousedown', handler)
+        return () => document.removeEventListener('mousedown', handler)
+    }, [])
+
     return (
         <div className="p-6 md:p-8 border-b border-white/[0.06] flex flex-col lg:flex-row gap-6 items-center justify-between">
             {/* Title */}
@@ -53,22 +69,57 @@ export default function FilterBar({
                     />
                 </div>
 
-                {/* Role Select */}
-                <div className="relative flex-1 lg:flex-none">
-                    <select
-                        value={roleFilter}
-                        onChange={(e) => onRoleFilterChange(e.target.value as RoleFilter)}
-                        className="w-full appearance-none bg-white/[0.03] border border-white/[0.08]
-                                   rounded-2xl pl-5 pr-12 py-3 text-sm text-slate-300
-                                   focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                {/* Custom Role Dropdown */}
+                <div ref={ref} className="relative flex-1 lg:flex-none">
+                    <button
+                        onClick={() => setOpen(prev => !prev)}
+                        className={`w-full flex items-center gap-2.5 bg-white/[0.03] border rounded-2xl
+                                    pl-4 pr-4 py-3 text-sm text-slate-300 cursor-pointer
+                                    focus:outline-none transition-all duration-200
+                                    ${open
+                                ? 'border-indigo-500/40 ring-2 ring-indigo-500/20 bg-white/[0.05]'
+                                : 'border-white/[0.08] hover:border-white/[0.14]'
+                            }`}
                     >
-                        {ROLE_OPTIONS.map((opt) => (
-                            <option key={opt.value} value={opt.value} className="bg-[#0f172a]">
-                                {opt.label}
-                            </option>
-                        ))}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                        <span className="text-indigo-400">{selected.icon}</span>
+                        <span className="flex-1 text-left">{selected.label}</span>
+                        <ChevronDown
+                            className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                        />
+                    </button>
+
+                    {open && (
+                        <div className="absolute z-50 mt-2 w-full min-w-[180px] right-0
+                                        bg-[#0f1729] border border-white/[0.08] rounded-2xl
+                                        shadow-[0_16px_40px_rgba(0,0,0,0.5)] overflow-hidden
+                                        animate-in fade-in slide-in-from-top-2 duration-150">
+                            <div className="p-1.5 flex flex-col gap-0.5">
+                                {ROLE_OPTIONS.map((opt) => {
+                                    const isActive = opt.value === roleFilter
+                                    return (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => { onRoleFilterChange(opt.value); setOpen(false) }}
+                                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm
+                                                        transition-all duration-150 text-left w-full
+                                                        ${isActive
+                                                    ? 'bg-indigo-500/15 text-indigo-300'
+                                                    : 'text-slate-400 hover:bg-white/[0.05] hover:text-slate-200'
+                                                }`}
+                                        >
+                                            <span className={isActive ? 'text-indigo-400' : 'text-slate-500'}>
+                                                {opt.icon}
+                                            </span>
+                                            {opt.label}
+                                            {isActive && (
+                                                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                                            )}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

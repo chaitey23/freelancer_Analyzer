@@ -10,6 +10,7 @@ import FilterBar from './components/FilterBar'
 import UserTable from './components/UserTable'
 import DeleteModal from './components/DeleteModal'
 import { AdminUser, RoleFilter } from './AdminTypes'
+import AdminLoader from './shared/Adminloader '
 
 export default function AdminDashboard() {
     const { user } = useAuth('admin')
@@ -42,7 +43,7 @@ export default function AdminDashboard() {
     }
 
     if (!user || loading) {
-        return <DashboardLoader />
+        return <AdminLoader></AdminLoader>
     }
 
     return (
@@ -123,15 +124,3 @@ export default function AdminDashboard() {
     )
 }
 
-function DashboardLoader() {
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-[#020617]">
-            <div className="relative w-16 h-16">
-                <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20
-                                border-t-indigo-500 animate-spin" />
-                <div className="absolute inset-2 rounded-full border-2 border-emerald-500/20
-                                border-t-emerald-500 animate-spin [animation-duration:1.5s]" />
-            </div>
-        </div>
-    )
-}

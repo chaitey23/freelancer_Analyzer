@@ -7,6 +7,7 @@ import { useAdminData } from '../hooks/useAdminData'
 import UserTable from '../components/UserTable'
 import FilterBar from '../components/FilterBar'
 import DeleteModal from '../components/DeleteModal'
+import AdminLoader from '../shared/Adminloader '
 
 
 export default function UsersPage() {
@@ -36,8 +37,7 @@ export default function UsersPage() {
         if (success) setConfirmDelete(null)
     }
 
-    if (!user || loading) return null
-
+    if (!user || loading) return <AdminLoader></AdminLoader>
     return (
         <div className='pt-24 px-4'>
             <div className=" border border-white/[0.06] rounded-[2.5rem] overflow-hidden backdrop-blur-md">
@@ -58,15 +58,16 @@ export default function UsersPage() {
                     />
                 </div>
 
-                {confirmDelete && (
-                    <DeleteModal
-                        user={confirmDelete}
-                        isDeleting={actionLoading === confirmDelete._id}
-                        onConfirm={handleDeleteConfirm}
-                        onCancel={() => setConfirmDelete(null)}
-                    />
-                )}
+
             </div>
+            {confirmDelete && (
+                <DeleteModal
+                    user={confirmDelete}
+                    isDeleting={actionLoading === confirmDelete._id}
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => setConfirmDelete(null)}
+                />
+            )}
         </div>
     )
 }

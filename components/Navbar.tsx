@@ -155,21 +155,6 @@ export default function Navbar() {
                                     <Link href="/settings" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
                                         Settings
                                     </Link>
-                                    {/* {user.role === 'client' && (
-                                        <Link href="/dashboard/client" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
-                                            Dashboard
-                                        </Link>
-                                    )}
-                                    {user.role === 'freelancer' && (
-                                        <Link href="/dashboard/freelancer" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
-                                            Dashboard
-                                        </Link>
-                                    )}
-                                    {user.role === 'admin' && (
-                                        <Link href="/dashboard/admin" className="flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors">
-                                            Dashboard
-                                        </Link>
-                                    )} */}
                                     {user.role === 'client' && (
                                         <Link href="/dashboard/client" className={`flex items-center gap-2 px-3 py-2.5 text-sm font-bold rounded-xl transition-colors ${pathname === '/dashboard/client'
                                             ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'

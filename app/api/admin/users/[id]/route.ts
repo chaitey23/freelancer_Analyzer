@@ -6,7 +6,7 @@ import { connectDB } from '@/lib/mongodb'
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const tokenData = getTokenData(req)
@@ -20,7 +20,7 @@ export async function DELETE(
 
         await connectDB()
 
-        const { id } = params
+        const { id } = await params
 
         if (tokenData.userId === id) {
             return NextResponse.json(

@@ -5,7 +5,7 @@ import { connectDB } from '@/lib/mongodb'
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const tokenData = getTokenData(req)
@@ -19,7 +19,7 @@ export async function PATCH(
 
         await connectDB()
 
-        const { id } = params
+        const { id } = await params
         const { banned } = await req.json()
 
         if (typeof banned !== 'boolean') {
@@ -39,7 +39,7 @@ export async function PATCH(
         const user = await User.findByIdAndUpdate(
             id,
             { banned },
-            { new: true }
+            { returnDocument: 'after' }
         ).select('_id name email role banned')
 
         if (!user) {
