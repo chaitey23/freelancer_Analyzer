@@ -56,7 +56,7 @@ export default function DeleteModal({
                         disabled={isDeleting}
                         className="flex-1 py-3 rounded-xl bg-red-500 hover:bg-red-400
                                    text-white text-xs font-black uppercase tracking-widest
-                                   transition-all disabled:opacity-50"
+                                   transition-all disabled:opacity-50 cursor-pointer"
                     >
                         {isDeleting ? 'Processing...' : 'Confirm'}
                     </button>

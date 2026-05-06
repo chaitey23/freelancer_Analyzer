@@ -34,6 +34,7 @@ interface Review {
 }
 
 export default function FreelancerDetails() {
+    // const { user } = useAuth('client')
     const { user } = useAuth(['client', 'admin'])
     const router = useRouter()
     const params = useParams()

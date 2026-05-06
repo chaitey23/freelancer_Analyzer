@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { UserType } from '@/types'
 import axiosInstance from '@/lib/axios'
 
-export function useAuth(requiredRole?: string) {
+export function useAuth(requiredRole?: string | string[]) {
     const router = useRouter()
     const [user, setUser] = useState<UserType | null>(null)
     const isMounted = useRef(false)
@@ -20,9 +20,16 @@ export function useAuth(requiredRole?: string) {
 
         const parsed = JSON.parse(userData)
 
-        if (requiredRole && parsed.role !== requiredRole) {
-            router.push('/login')
-            return
+        // if (requiredRole && parsed.role !== requiredRole) {
+        //     router.push('/login')
+        //     return
+        // }
+        if (requiredRole) {
+            const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole]
+            if (!roles.includes(parsed.role)) {
+                router.push('/login')
+                return
+            }
         }
 
         setTimeout(() => setUser(parsed), 0)

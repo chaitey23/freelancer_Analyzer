@@ -32,7 +32,6 @@ export default function ReviewPage() {
                 const res = await axiosInstance.get(`/freelancers/${id}`)
                 setFreelancer(res.data.freelancer)
 
-                // আগে review দিয়েছে কিনা check
                 const check = await axiosInstance.get(`/reviews/${id}/mine`)
                 if (!check.data.canReview) {
                     router.push('/dashboard/client')

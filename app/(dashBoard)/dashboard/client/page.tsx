@@ -39,7 +39,6 @@ export default function ClientDashboard() {
                 const res = await axiosInstance.get('/proposals')
                 setProposals(res.data.proposals)
 
-                // কোন freelancer কে আগে review দিয়েছে check
                 const completed = res.data.proposals.filter((p: Proposal) => p.status === 'completed')
                 const reviewed: string[] = []
                 await Promise.all(completed.map(async (p: Proposal) => {

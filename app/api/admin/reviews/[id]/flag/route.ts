@@ -4,14 +4,16 @@ import { connectDB } from '@/lib/mongodb'
 import { verifyAdmin } from '@/lib/verifyAdmin'
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const authError = verifyAdmin(req)
     if (authError) return authError
 
     await connectDB()
 
-    const review = await Review.findById(params.id)
+    const { id } = await params  // ← await করো
+
+    const review = await Review.findById(id)
     if (!review) {
         return NextResponse.json({ message: 'Review not found' }, { status: 404 })
     }
