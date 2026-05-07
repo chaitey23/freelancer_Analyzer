@@ -43,7 +43,7 @@ export async function PUT(req: NextRequest) {
         )
 
         return NextResponse.json({
-            user: { id: user._id, name: user.name, email: user.email, role: user.role }
+            user: { id: user._id, name: user.name, email: user.email, role: user.role, avatar: user.avatar }
         })
 
     } catch (error) {

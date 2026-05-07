@@ -40,7 +40,7 @@ export default function UsersPage() {
     if (!user || loading) return <AdminLoader></AdminLoader>
     return (
         <div className='pt-24 px-4'>
-            <div className=" border border-white/[0.06] rounded-[2.5rem] overflow-hidden backdrop-blur-md">
+            <div className=" max-w-7xl mx-auto mt-12 border border-white/[0.06] rounded-[2.5rem] overflow-hidden backdrop-blur-md">
                 <FilterBar
                     search={search}
                     onSearchChange={setSearch}

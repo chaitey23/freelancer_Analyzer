@@ -43,7 +43,7 @@ export default function ReviewPage() {
 
     return (
         <div className="pt-24 px-4">
-            <div className="bg-white/[0.02] border border-white/[0.06] rounded-[2.5rem] overflow-hidden backdrop-blur-md">
+            <div className=" max-w-7xl mx-auto mt-12 bg-white/[0.02] border border-white/[0.06] rounded-[2.5rem] overflow-hidden backdrop-blur-md">
                 <ReviewFilterBar
                     search={search}
                     onSearchChange={setSearch}

@@ -77,6 +77,22 @@ export default function SettingsPage() {
         loadProfile()
     }, [user])
 
+    // const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0]
+    //     if (!file) return
+    //     setUploading(true)
+    //     try {
+    //         const formData = new FormData()
+    //         formData.append('file', file)
+    //         const res = await fetch('/api/upload', { method: 'POST', body: formData })
+    //         const data = await res.json()
+    //         setProfileForm(prev => ({ ...prev, avatar: data.url }))
+    //     } catch {
+    //         console.error('Upload failed')
+    //     } finally {
+    //         setUploading(false)
+    //     }
+    // }
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (!file) return
@@ -86,7 +102,17 @@ export default function SettingsPage() {
             formData.append('file', file)
             const res = await fetch('/api/upload', { method: 'POST', body: formData })
             const data = await res.json()
-            setProfileForm(prev => ({ ...prev, avatar: data.url }))
+
+            const updatedForm = { ...profileForm, avatar: data.url }
+            setProfileForm(updatedForm)
+
+            const saveRes = await axiosInstance.put('/user/update', updatedForm)
+            const updatedUser = saveRes.data.user
+            const stored = JSON.parse(localStorage.getItem('user') || '{}')
+            const merged = { ...stored, ...updatedUser, avatar: data.url }
+            localStorage.setItem('user', JSON.stringify(merged))
+            window.dispatchEvent(new Event('storage'))
+
         } catch {
             console.error('Upload failed')
         } finally {

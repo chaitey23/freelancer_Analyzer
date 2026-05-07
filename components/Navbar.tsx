@@ -20,6 +20,8 @@ export default function Navbar() {
             setUser(userData ? JSON.parse(userData) : null)
         }
         syncUser()
+        window.addEventListener('storage', syncUser)
+        return () => window.removeEventListener('storage', syncUser)
     }, [pathname])
 
 
@@ -136,8 +138,18 @@ export default function Navbar() {
                                 onClick={() => setProfileOpen(!profileOpen)}
                                 className="flex items-center gap-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-full pl-1.5 pr-3 py-1.5 hover:border-indigo-400 transition-all backdrop-blur-md"
                             >
-                                <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs font-black shadow-md">
-                                    {user.name?.charAt(0).toUpperCase()}
+                                <div className="w-8 h-8 rounded-full overflow-hidden shadow-md shrink-0">
+                                    {user.avatar ? (
+                                        <img
+                                            src={user.avatar}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xs font-black">
+                                            {user.name?.charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="text-left leading-tight hidden xs:block">
                                     <p className="text-[12px] font-bold text-slate-800 dark:text-slate-100">{user.name}</p>
@@ -181,7 +193,7 @@ export default function Navbar() {
                                     )}
                                     <button
                                         onClick={logout}
-                                        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition-colors"
+                                        className="w-full cursor-pointer flex items-center gap-2 px-3 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition-colors"
                                     >
                                         Logout
                                     </button>
