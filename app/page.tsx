@@ -1,6 +1,6 @@
+import FeaturesSection from '@/components/sections/features/FeaturesSection'
 import HowItWorksSection from '@/components/sections/HowItWorksSection'
 import StatsSection from '@/components/sections/StatsSection'
-import FeaturesSection from '@/components/sections/FeaturesSection'
 
 import Link from 'next/link'
 export default function Home() {
