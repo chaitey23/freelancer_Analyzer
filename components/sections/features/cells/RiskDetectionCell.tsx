@@ -3,7 +3,7 @@ import { riskItems } from '../data/features-data'
 
 export default function RiskDetectionCell() {
     return (
-        <MagCard className="bento-cell md:col-span-3 opacity-0 relative rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 to-slate-900/80 p-7 overflow-hidden">
+        <MagCard className="bento-cell md:col-span-3 relative rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 to-slate-900/80 p-7 overflow-hidden">
             <div className="relative z-10 flex flex-col gap-4">
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
+
 const tabs = {
     client: {
         label: 'For Clients',
@@ -55,7 +56,11 @@ const tabs = {
                 ),
                 visual: (
                     <div className="flex flex-col gap-2.5">
-                        {[{ label: 'Review Sentiment', val: 94, color: '#06b6d4' }, { label: 'Completion Rate', val: 98, color: '#3b82f6' }, { label: 'Response Time', val: 87, color: '#6366f1' }].map((item) => (
+                        {[
+                            { label: 'Review Sentiment', val: 94, color: '#06b6d4' },
+                            { label: 'Completion Rate', val: 98, color: '#3b82f6' },
+                            { label: 'Response Time', val: 87, color: '#6366f1' }
+                        ].map((item) => (
                             <div key={item.label} className="flex flex-col gap-1">
                                 <div className="flex justify-between text-[10px]">
                                     <span className="text-slate-400">{item.label}</span>
@@ -153,7 +158,11 @@ const tabs = {
                 ),
                 visual: (
                     <div className="flex flex-col gap-2.5">
-                        {[{ label: 'On-time Delivery', val: 96, color: '#a78bfa' }, { label: 'Client Satisfaction', val: 91, color: '#8b5cf6' }, { label: 'Repeat Hire Rate', val: 78, color: '#7c3aed' }].map((item) => (
+                        {[
+                            { label: 'On-time Delivery', val: 96, color: '#a78bfa' },
+                            { label: 'Client Satisfaction', val: 91, color: '#8b5cf6' },
+                            { label: 'Repeat Hire Rate', val: 78, color: '#7c3aed' }
+                        ].map((item) => (
                             <div key={item.label} className="flex flex-col gap-1">
                                 <div className="flex justify-between text-[10px]">
                                     <span className="text-slate-400">{item.label}</span>
@@ -210,22 +219,18 @@ export default function HowItWorksSection() {
     const sectionRef = useRef<HTMLDivElement>(null)
     const headingRef = useRef<HTMLDivElement>(null)
     const tabsRef = useRef<HTMLDivElement>(null)
-    const cardsWrapperRef = useRef<HTMLDivElement>(null)
     const cardsRef = useRef<(HTMLDivElement | null)[]>([])
     const lineRef = useRef<HTMLDivElement>(null)
+    const rafRef = useRef<number>(0) // ✅ RAF throttle
 
+    // Tab change → cards animate in
     useEffect(() => {
         const cards = cardsRef.current.filter(Boolean)
         if (!cards.length) return
 
         gsap.fromTo(cards,
             { opacity: 0, y: 40, scale: 0.95 },
-            {
-                opacity: 1, y: 0, scale: 1,
-                duration: 0.6,
-                ease: 'power3.out',
-                stagger: 0.1,
-            }
+            { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 }
         )
 
         if (lineRef.current) {
@@ -236,7 +241,7 @@ export default function HowItWorksSection() {
         }
     }, [activeTab])
 
-    // Scroll-triggered entrance
+    // Scroll entrance — ✅ blob loop সরানো হয়েছে
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.fromTo(headingRef.current,
@@ -247,33 +252,40 @@ export default function HowItWorksSection() {
                 { opacity: 0, y: 20 },
                 { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.2, scrollTrigger: { trigger: tabsRef.current, start: 'top 88%' } }
             )
-
-            // Floating blobs
-            sectionRef.current?.querySelectorAll('.glow-blob').forEach((blob, i) => {
-                gsap.to(blob, {
-                    y: i % 2 === 0 ? -30 : 30, x: i % 2 === 0 ? 15 : -15,
-                    duration: 4 + i * 1.3, ease: 'sine.inOut', yoyo: true, repeat: -1,
-                })
-            })
+            // ❌ blob gsap loop এখানে ছিল — সরানো হয়েছে, CSS করছে
         }, sectionRef)
 
         return () => ctx.revert()
     }, [])
 
-    // Hover tilt
+    // ✅ Hover tilt — RAF throttle সহ
     const initTilt = (el: HTMLDivElement | null) => {
         if (!el) return
+
         el.addEventListener('mousemove', (e: MouseEvent) => {
-            const rect = el.getBoundingClientRect()
-            const x = e.clientX - rect.left
-            const y = e.clientY - rect.top
-            const cx = rect.width / 2
-            const cy = rect.height / 2
-            gsap.to(el, { rotateX: ((y - cy) / cy) * -6, rotateY: ((x - cx) / cx) * 6, transformPerspective: 900, duration: 0.3, ease: 'power2.out' })
-            const glow = el.querySelector('.card-glow') as HTMLElement
-            if (glow) gsap.to(glow, { opacity: 1, x: x - cx, y: y - cy, duration: 0.3 })
+            cancelAnimationFrame(rafRef.current)
+            rafRef.current = requestAnimationFrame(() => {
+                const rect = el.getBoundingClientRect()
+                const x = e.clientX - rect.left
+                const y = e.clientY - rect.top
+                const cx = rect.width / 2
+                const cy = rect.height / 2
+
+                gsap.to(el, {
+                    rotateX: ((y - cy) / cy) * -6,
+                    rotateY: ((x - cx) / cx) * 6,
+                    transformPerspective: 900,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                })
+
+                const glow = el.querySelector('.card-glow') as HTMLElement
+                if (glow) gsap.to(glow, { opacity: 1, x: x - cx, y: y - cy, duration: 0.3 })
+            })
         })
+
         el.addEventListener('mouseleave', () => {
+            cancelAnimationFrame(rafRef.current)
             gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.7, ease: 'elastic.out(1, 0.5)' })
             const glow = el.querySelector('.card-glow') as HTMLElement
             if (glow) gsap.to(glow, { opacity: 0, duration: 0.3 })
@@ -289,10 +301,10 @@ export default function HowItWorksSection() {
     return (
         <section ref={sectionRef} className="relative w-full py-20 overflow-hidden">
 
-            {/* Ambient blobs */}
-            <div className="glow-blob pointer-events-none absolute top-20 right-1/4 w-72 h-72 rounded-full opacity-[0.12]"
+            {/* ✅ Blob — এখন CSS animate করছে (globals.css) */}
+            <div className="blob-a pointer-events-none absolute top-20 right-1/4 w-72 h-72 rounded-full opacity-[0.12]"
                 style={{ background: 'radial-gradient(circle, #6366f1 0%, transparent 70%)', filter: 'blur(50px)' }} />
-            <div className="glow-blob pointer-events-none absolute bottom-20 left-1/4 w-80 h-80 rounded-full opacity-[0.08]"
+            <div className="blob-b pointer-events-none absolute bottom-20 left-1/4 w-80 h-80 rounded-full opacity-[0.08]"
                 style={{ background: 'radial-gradient(circle, #06b6d4 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
             {/* Top divider */}
@@ -340,9 +352,9 @@ export default function HowItWorksSection() {
                 </div>
 
                 {/* Cards */}
-                <div ref={cardsWrapperRef} className="relative">
+                <div className="relative">
 
-                    {/* Connector line (desktop) */}
+                    {/* Connector line */}
                     <div className="hidden lg:block absolute top-[3.6rem] left-[16.5%] right-[16.5%] h-px z-0">
                         <div ref={lineRef} className="h-full" style={{ background: lineGradient }} />
                         {[0, 50, 100].map((pos) => (

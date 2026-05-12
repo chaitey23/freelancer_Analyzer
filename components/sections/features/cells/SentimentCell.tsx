@@ -3,7 +3,7 @@ import { sentimentReviews, sentimentTags } from '../data/features-data'
 
 export default function SentimentCell() {
     return (
-        <MagCard className="bento-cell md:col-span-5 opacity-0 relative rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/60 to-slate-900/80 p-7 overflow-hidden">
+        <MagCard className="bento-cell md:col-span-5 relative rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/60 to-slate-900/80 p-7 overflow-hidden">
             <div className="relative z-10 flex flex-col gap-4 h-full">
                 <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">

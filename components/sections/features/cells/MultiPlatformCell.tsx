@@ -1,11 +1,9 @@
 import MagCard from '../components/MagCard'
-import ParticleField from '../components/ParticleField'
 import { platforms } from '../data/features-data'
 
 export default function MultiPlatformCell() {
     return (
-        <MagCard className="bento-cell md:col-span-12 opacity-0 relative rounded-2xl border border-pink-500/20 bg-gradient-to-br from-pink-950/30 to-slate-900/80 p-8 overflow-hidden">
-            <ParticleField color="rgb(236,72,153)" />
+        <MagCard className="bento-cell md:col-span-12 relative rounded-2xl border border-pink-500/20 bg-gradient-to-br from-pink-950/30 to-slate-900/80 p-8 overflow-hidden">
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8">
                 <div className="flex-shrink-0 max-w-[260px]">
                     <div className="flex items-center gap-2 mb-3">

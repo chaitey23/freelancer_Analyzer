@@ -1,16 +1,12 @@
-import { useCounter } from '../hooks/useCounter'
-
 interface ScoreRingProps {
     value: number
     color: string
-    started: boolean
 }
 
-export default function ScoreRing({ value, color, started }: ScoreRingProps) {
-    const count = useCounter(value, 1.8, started)
+export default function ScoreRing({ value, color }: ScoreRingProps) {
     const r = 36
     const circ = 2 * Math.PI * r
-    const dash = started ? (count / 100) * circ : 0
+    const dash = (value / 100) * circ
 
     return (
         <div className="relative flex items-center justify-center w-24 h-24 flex-shrink-0">
@@ -19,10 +15,9 @@ export default function ScoreRing({ value, color, started }: ScoreRingProps) {
                 <circle
                     cx="48" cy="48" r={r} fill="none" stroke={color} strokeWidth="6"
                     strokeDasharray={`${dash} ${circ}`}
-                    style={{ filter: `drop-shadow(0 0 6px ${color})`, transition: 'stroke-dasharray 0.05s linear' }}
                 />
             </svg>
-            <span className="absolute text-xl font-black text-white">{count}</span>
+            <span className="absolute text-xl font-black text-white">{value}</span>
         </div>
     )
 }

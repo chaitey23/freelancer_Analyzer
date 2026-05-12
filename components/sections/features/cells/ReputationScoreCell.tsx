@@ -1,17 +1,10 @@
-import ParticleField from '../components/ParticleField'
 import ScoreRing from '../components/ScoreRing'
 import MagCard from '../components/MagCard'
 import { reputationStats } from '../data/features-data'
 
-interface ReputationScoreCellProps {
-    started: boolean
-}
-
-export default function ReputationScoreCell({ started }: ReputationScoreCellProps) {
+export default function ReputationScoreCell() {
     return (
-        <MagCard className="bento-cell md:col-span-7 opacity-0 relative rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-slate-900/80 p-8 overflow-hidden min-h-[280px]">
-            <ParticleField color="rgb(99,102,241)" />
-            <div className="scan-line absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-400/30 to-transparent pointer-events-none" style={{ top: 0 }} />
+        <MagCard className="bento-cell md:col-span-7 relative rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-950/60 to-slate-900/80 p-8 overflow-hidden min-h-[280px]">
             <div className="relative z-10 flex flex-col h-full gap-6">
                 <div className="flex items-start justify-between gap-4">
                     <div>
@@ -28,7 +21,7 @@ export default function ReputationScoreCell({ started }: ReputationScoreCellProp
                             Analyzes thousands of data points — reviews, dispute history, completion rates — and produces a single verified trust score in under 3 seconds.
                         </p>
                     </div>
-                    <ScoreRing value={96} color="#6366f1" started={started} />
+                    <ScoreRing value={96} color="#6366f1" />
                 </div>
                 <div className="grid grid-cols-3 gap-3 mt-auto">
                     {reputationStats.map(s => (

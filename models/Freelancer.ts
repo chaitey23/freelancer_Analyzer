@@ -14,6 +14,7 @@ export interface IFreelancer extends Document {
     platform: string
     yearsOfExperience: number
     aiReport: string
+    resume: string
 }
 
 const FreelancerSchema = new Schema<IFreelancer>({
@@ -22,6 +23,7 @@ const FreelancerSchema = new Schema<IFreelancer>({
     experience: { type: String, default: '' },
     portfolio: { type: String, default: '' },
     avatar: { type: String, default: '' },
+    resume: { type: String, default: '' },
     bio: { type: String, default: '' },
     trustScore: { type: Number, default: 0 },
     totalProjects: { type: Number, default: 0 },

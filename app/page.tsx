@@ -1,4 +1,5 @@
 import FeaturesSection from '@/components/sections/features/FeaturesSection'
+import TrustedBy from '@/components/sections/features/TrustedBy'
 import HowItWorksSection from '@/components/sections/HowItWorksSection'
 import StatsSection from '@/components/sections/StatsSection'
 
@@ -58,7 +59,7 @@ export default function Home() {
               Start Analyzing Free
             </Link>
             <Link
-              href="/login"
+              href="/freelancers"
               className="w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-base text-white border border-white/20 backdrop-blur-md hover:bg-white/10 transition-all"
             >
               View Demo
@@ -66,7 +67,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+      <TrustedBy />
       <StatsSection />
       <HowItWorksSection />
       <FeaturesSection />

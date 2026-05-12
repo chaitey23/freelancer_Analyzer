@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest) {
         const {
             skills, bio, experience, portfolio, avatar,
             totalProjects, jobSuccessRate, responseRate,
-            platform, yearsOfExperience
+            platform, yearsOfExperience, resume
         } = await req.json()
 
         const profile = await Freelancer.findOneAndUpdate(
@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest) {
             {
                 skills, bio, experience, portfolio, avatar,
                 totalProjects, jobSuccessRate, responseRate,
-                platform, yearsOfExperience
+                platform, yearsOfExperience, resume
             },
             { new: true, upsert: true }
         )

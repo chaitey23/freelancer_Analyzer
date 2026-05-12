@@ -14,13 +14,16 @@ export default function FreelancerProfile() {
     const [skillInput, setSkillInput] = useState('')
     const [trustScore, setTrustScore] = useState(0)
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [resumeUploading, setResumeUploading] = useState(false)
+    const resumeInputRef = useRef<HTMLInputElement>(null)
 
     const [form, setForm] = useState({
         bio: '',
         experience: '',
         portfolio: '',
         skills: [] as string[],
-        avatar: ''
+        avatar: '',
+        resume: ''
     })
 
     useEffect(() => {
@@ -34,7 +37,8 @@ export default function FreelancerProfile() {
                         experience: p.experience || '',
                         portfolio: p.portfolio || '',
                         skills: p.skills || [],
-                        avatar: p.avatar || ''
+                        avatar: p.avatar || '',
+                        resume: p.resume || ''
                     })
                     setTrustScore(p.trustScore || 0)
                 }
@@ -68,7 +72,27 @@ export default function FreelancerProfile() {
             setUploading(false)
         }
     }
+    const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
 
+        setResumeUploading(true)
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            const data = await res.json()
+            setForm(prev => ({ ...prev, resume: data.url }))
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setResumeUploading(false)
+        }
+    }
     const addSkill = () => {
         const trimmed = skillInput.trim()
         if (trimmed && !form.skills.includes(trimmed)) {
