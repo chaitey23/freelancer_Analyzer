@@ -82,7 +82,7 @@ export default function TrustedBy() {
                                     {/* Logo box */}
                                     <div className="relative flex items-center justify-center w-8 h-8 rounded-lg border border-white/[0.07] bg-white/[0.05] flex-shrink-0 transition-colors duration-300 group-hover:bg-white/[0.09]">
                                         <img
-                                            src={p.logoUrl || `https://cdn.simpleicons.org/${p.domain?.split('.')[0]}/${p.color.replace('#', '')}`}
+                                            src={p.logoUrl}
                                             alt={p.name}
                                             width={18}
                                             height={18}
