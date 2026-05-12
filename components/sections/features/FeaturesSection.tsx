@@ -237,9 +237,9 @@ export default function FeaturesSection() {
 
                 {/* Bento Grid */}
                 <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-12 gap-4" >
-                    <ReputationScoreCell started={started} />
+                    <ReputationScoreCell />
                     <SentimentCell />
-                    <AnalyticsCell started={started} />
+                    <AnalyticsCell />
                     <ComparisonCell />
                     <RiskDetectionCell />
                     <MultiPlatformCell />
